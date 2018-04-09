@@ -1,7 +1,7 @@
 ---
 title: "Ejercicios Tema 1"
 author: "Juan Andrés Peraira Pérez"
-date: "5 de abril de 2018"
+date: "6 de abril de 2018"
 output: pdf_document
 ---
 
@@ -141,7 +141,8 @@ x[is.na(x)]=0
 x
 ```
 
-##Ejercicio 8:Cargue los datos “trees” del dataset (el conjunto de datos que viene instalado por defecto en R) y utilice la función “apply” para calcular la media de cada variable de la base de datos.
+##Ejercicio 8: Cargue los datos “trees” del dataset (el conjunto de datos que viene instalado por defecto en R) y utilice la función “apply” para calcular la media de cada variable de la base de datos.
+\newpage
 ### Solución:
 
 ```{r, echo=TRUE}
@@ -192,6 +193,19 @@ id & Sex & N & V \\
 \end{table}
 
 ### Solución:
+
+```{r, echo=TRUE}
+datos<-data.frame(id=c(1,2,3),Sex=c("F","M","F"),V1=c(0.89,0.30,0.22),
+                  V2=c(-0.45,0.21,-0.71),V3=c(0.21,0.37,-0.54))
+datos
+```
+```{r, echo=TRUE}
+## -- Instalamos y cargamos el paquete necesario
+library(reshape2)
+datos_long<- melt(datos, id=c("id","Sex"))
+datos_long
+```
+
 
 
 
