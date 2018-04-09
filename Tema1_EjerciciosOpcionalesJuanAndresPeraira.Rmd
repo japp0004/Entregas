@@ -74,7 +74,6 @@ x<-c(7.3,6.8,0.005,9,12,2.4,18.9,0.9)
 x
 media<-mean(x)
 media
-#-- Existen varias formas de realizar esta operación, creo una tabla que indique con TRUE o FALSE que elementos del vector es mayor a 1
 table(x>1)
 #-- En este caso existen 6 valores mayores a 1
 #-- Raiz cuadrada de  los números
@@ -89,7 +88,14 @@ media_raiz<-function(vector){
   }
 }
 media_raiz(x)
+#-- Redondeo de los datos de la raiz cuadrada para que solo tengan un decimal
+round(raiz,1)
 ```
 
+## Ejercicio 5: Utiliza las funciones rep() y seq() para producir un vector que contenga: a) los valores: 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, b) los valores: 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, c) los valores: 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5.
 
+```{r, echo=TRUE}
+a<-rep(c(1,2,3,4),4)
+b<-c(rep(4,4),rep(3,4),rep(2,4),rep(1,4))
+```
 
