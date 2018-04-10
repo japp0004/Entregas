@@ -61,7 +61,8 @@ head(varespec)
 ```{r, echo=TRUE}
 #-- Creamos un vector con los nombre
  x<-c("Castellon","Valencia","Alicante")
-#-- Con la función sample generamos una muestra aleatoria de 30 observaciones del vector creado y lo transformamos a factor
+#-- Con la función sample generamos una muestra aleatoria de 30 observaciones del vector
+#-- creado y lo transformamos a factor
 muestra<-sample(as.factor(x),30,replace=T)
 table(muestra)
 str(muestra)
@@ -96,6 +97,100 @@ round(raiz,1)
 
 ```{r, echo=TRUE}
 a<-rep(c(1,2,3,4),4)
+a
 b<-c(rep(4,4),rep(3,4),rep(2,4),rep(1,4))
+b
+c<-c(rep(1,1),rep(2,2),rep(3,3),rep(4,4),rep(5,5))
+c
 ```
+
+## Ejercicio 6: Use la funcion sample() para obtener una muestra de tamaño 5 de un vector con valores 1:20 y probabilidades proporcionales.
+
+```{r, echo=TRUE}
+muestra<-sample(1:20,5)
+muestra
+```
+
+\newpage
+
+## Ejercicio 7: Utiliza la función reshape() con los datos iris para poder realizar un gráfico con la función bwplot() del paquete lattice.
+
+```{r, echo=TRUE}
+#-- Cargamos los datos de "iris"
+datos<-iris
+head(datos)
+#-- Instalamos y cargamos los paquetes necesarios
+# install.packages("reshape")
+# library(reshape)
+#install.packages("lattice")
+#library(lattice)
+iris_reshape <- reshape(datos, varying=1:4, v.names="Medida", 
+                         timevar="Dimension", times=names(datos)[1:4], 
+                         idvar="ID medida", direction="long")
+head(iris_reshape)
+
+bwplot(Medida ~ Species | Dimension, data=iris_reshape)
+
+```
+
+## Ejercicio 8: Crea una función para calcular el salario de un trabajador que cobra 20 euros la hora y que trabaja 4 horas diarias. Calcula con esta función cuánto ha de ganar al mes si trabaja los 5 días de la semana.
+
+```{r, echo=TRUE}
+sal<-function(horas,precio=20){
+  salario<-horas*precio
+  return(paste(salario,"euros"))
+}
+
+```
+```{r, echo=TRUE}
+#-- Dado que trabaja 4 horas al día, a la semana son 20 horas 
+#-- y por consiguiente al més son 80 horas
+salario<-sal(80)
+salario
+```
+
+## Ejercicio 9: Crea una nueva función que incluya la siguiente información: el trabajador cobra las horas extra a 40 euros. Calcula con esta función cuál será su salario si este mes ha trabajado 5 horas extras.
+
+```{r, echo=TRUE}
+sal_2<-function(horas,hora_extra=NA){
+  precio=20
+  precio_hora_extra=40
+  if(!is.null(hora_extra) & !is.na(hora_extra)){
+  salario<-(horas*precio) + (hora_extra*precio_hora_extra) 
+  } else{salario<-(horas*precio)} 
+  
+  return(paste(salario,"euros"))
+}
+
+#-- En la función aparece por defecto horas extras vacias, si se indican 
+#-- cuantas son la función las tiene encuenta.
+
+#-- Ejemplo con horas extras.
+salario<-sal_2(80,5)
+salario
+#-- Ejemplo sin horas extras.
+salario<-sal_2(80)
+salario
+```
+
+## Ejercicio 10: Imagina que una empresa envía paquetes por correo a 10 euros el paquete, pero incluye una oferta donde si se entregan más de 50 paquetes se realiza un 10% de descuento en el precio final. Construye una función donde se calcule cada caso y ponlo a prueba.
+
+```{r, echo=TRUE}
+paquete<-function(paquetes){
+  precio=10
+  if(paquetes>50) {
+    resultado = (paquetes * precio) -(paquetes * precio *0.10)
+  } else {resultado = paquetes * precio}
+  return(paste(resultado,"euros"))
+}
+
+#-- Comprobación con menos de 50 paquetes
+resultado<-paquete(30)
+resultado
+
+#-- Comprobación con mas de 50 paquetes
+resultado<-paquete(68)
+resultado
+```
+
 
