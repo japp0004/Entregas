@@ -15,14 +15,102 @@ Queremos responder a las siguientes preguntas:
 ¿Cuántos datos (o casos) tenemos para cada especie? y ¿qué porcentaje representan del total de casos?
 Realice los gráficos pertinentes para cada tipo de variable (cualitativa vs. cuantitativa).
 
-¿Cuál es la media clásica y robusta del ancho del sépalo para cada especie?. Realice diagrama de cajas.
-
-¿Qué correlaciones existen entre las distintas medidas tomadas a cada planta? Realice un gráfico bidimensional para observarlo.
-```{r cars, echo=TRUE}
+```{r , echo=TRUE}
 datos<-iris #-- cargamos los datos
 head(datos)
+attach(datos) #-- activamos las variables
+
+```
+¿Cuál es la media clásica y robusta del ancho del sépalo para cada especie?. Realice diagrama de cajas.
+
+```{r , echo=TRUE}
+#-- Media clásica del ancho del sépalo para cada especie.
+media_ancho_sepalo<-aggregate(Sepal.Width~Species, datos, mean)
+media_ancho_sepalo
+
+#-- Media robusta del ancho del sépalo para cad especie.
+
+library(WRS2)
+
+media_robusta_ancho_sepalo<-aggregate(Sepal.Width~Species, datos, mest)
+media_robusta_ancho_sepalo
 
 
 ```
+¿Qué correlaciones existen entre las distintas medidas tomadas a cada planta? Realice un gráfico bidimensional para observarlo.
+```{r , echo=TRUE}
+
+```
+
+## Ejercicio 2: Utiliza los datos “Davis” (paquete “car”) para calcular el IMC como se indicó en el tema 2 (IMC=Peso/Estatura^2). Realia:
+
+Gráfico de barras y de sectores para las categorías del IMC por sexo.
+```{r , echo=TRUE}
+#-- cargamos los datos
+library(car)
+datos<-Davis
+head(datos)
+
+attach(datos) #-- Activamos las variables
+
+#-- Creamos la función
+imc=function(w,h){w/(h/100)^2}
+#-- Calculamos el imc para los datos
+datos_imc<-imc(datos$weight,datos$height)
+# creamos las categorías de IMC
+imcc_datos=cut(datos_imc, breaks=c(0, 15, 18.5, 25, 30))
+#-- Creamos la tabla
+imcfrec=table(imcc_datos)
+cbind(imcfrec)
+#-- agregamos las etiquetas
+levels(imcc_datos)=c("infrapeso","delgada","normal","sobrepeso","obesidad")
+#-- Creamos el data frame
+datos_davis<-data.frame(datos, IMC=datos_imc, IMCc=imcc_datos)
+# eliminamos los errores
+datos_davis<-datos_davis[!is.na(datos_davis$IMCc),]
+head(datos_davis)
+
+library(ggplot2)
+library(gridExtra)
+ggplot(datos_davis,aes(x=factor(sex),fill=factor(IMCc))) +
+  geom_bar(stat = "count", position="dodge")+
+  labs(title = "Gráfico de IMC por Sexo") +
+  labs(fill = "IMC") +
+  labs(aes(x="Sexo",y="Personas"))
+
+#-- Gráfico de sectores
+#-- Realizaremos dos gráficos separando los hombres ylas mujeres
+
+#-- Gráfrico para los hombres
+datos_hombres<-subset(datos_davis,datos_davis$sex=="M")
+grafico_tarta<-pie(table(datos_hombres$IMCc))
+
+
+#-- Gráfico para las mujeres
+
+datos_mujeres<-subset(datos_davis,datos_davis$sex=="F")
+grafico_tarta<-pie(table(datos_mujeres$IMCc))
+
+
+```
+
+Gráficos de cajas e histogramas para la variable IMC numérica, también por sexo. ¿Existe algún outlier?, ¿cuáles?.
+```{r , echo=TRUE}
+
+```
+
+Interpreta los resultados.
+```{r , echo=TRUE}
+
+```
+
+          
+
+
+
+
+
+
+
 
 
