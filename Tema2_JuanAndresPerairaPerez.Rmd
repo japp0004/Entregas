@@ -1,0 +1,28 @@
+---
+title: "Ejercicios tema 2"
+author: "Juan Andrés Peraira Pérez"
+date: "13 de abril de 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Ejercicio 1: Utiliza los datos “iris” que corresponden a mediciones (en centímetros) de 4 variables: largo y ancho de los pétalos y sépalos; para 50 flores de 3 especies distintas de plantas Iris setosa, versicolor, y virginica.
+Queremos responder a las siguientes preguntas:
+
+¿Cuántos datos (o casos) tenemos para cada especie? y ¿qué porcentaje representan del total de casos?
+Realice los gráficos pertinentes para cada tipo de variable (cualitativa vs. cuantitativa).
+
+¿Cuál es la media clásica y robusta del ancho del sépalo para cada especie?. Realice diagrama de cajas.
+
+¿Qué correlaciones existen entre las distintas medidas tomadas a cada planta? Realice un gráfico bidimensional para observarlo.
+```{r cars, echo=TRUE}
+datos<-iris #-- cargamos los datos
+head(datos)
+
+
+```
+
+
