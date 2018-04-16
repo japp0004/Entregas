@@ -104,10 +104,28 @@ Interpreta los resultados.
 
 ```
 
-          
+## Ejercicio 2:  Utiliza los datos “Arthritis” (paquete “vcd”) sobre un ensayo clínico de doble ciego que investiga un nuevo tratamiento para la artritis reumatoide. Tenemos información de 84 observaciones de 5 variables: la identificación del paciente (ID), el tratamiento (Treatment: Placebo, Treated), el sexo (Sex: Female, Male), la edad (Age) y la mejoría (Improved: None, Some, Marked). Obtener las tablas de frecuencias y  medidas de asociación entre estas variables. Interpreta los resultados.
 
+```{r , echo=TRUE}
+#-- Cargamos el paquete
+library(vcd)
+datos<-Arthritis
+attach(datos) #-- Activamos las variables
 
+#-- Las tablas de frecuencia se realizarán por variable.
+#-- Tabla de frecuencias de la variable Tratamiento
+table(Treatment)
 
+#-- Tabla de frecuencias de la variable Sexo
+table(Sex)
+
+#-- Tabla de frecuencias de la variable Edad
+table(Age)
+
+#-- Tabla de frecuencias de la variable Improved
+table(Improved)
+
+```
 
 
 
