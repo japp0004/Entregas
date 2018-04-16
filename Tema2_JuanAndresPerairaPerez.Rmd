@@ -19,8 +19,72 @@ Realice los gráficos pertinentes para cada tipo de variable (cualitativa vs. cu
 datos<-iris #-- cargamos los datos
 head(datos)
 attach(datos) #-- activamos las variables
+table(Species)
+#-- Podemos observar que tenemos 50 casos para cada especie
+table(Species)/length(Species)
+```
+El porcentaje es de un 33,33% por especie con respecto al total de datos.
+Comenzaremos con los  Gráficos para las variables cuantitativas, en primer lugar se realizaran los diagramas de cajas y bigotes
+```{r , echo=TRUE}
+library(ggplot2)
+p <- ggplot(datos,aes(Species,Sepal.Length))
+p +
+  labs(x = "Especies",y = "Longitud Sépalo",
+       title="Diagrama de Cajas y bigotes")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+  geom_boxplot(aes(fill=Species))
+
+p <- ggplot(datos,aes(Species,Sepal.Width))
+p +
+  labs(x = "Especies",y = "Ancho Sépalo",
+       title="Diagrama de Cajas y bigotes")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+  geom_boxplot(aes(fill=Species))
+
+p <- ggplot(datos,aes(Species,Petal.Length))
+p +
+  labs(x = "Especies",y = "Longitud Pétalo",
+       title="Diagrama de Cajas y bigotes")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+  geom_boxplot(aes(fill=Species))
+
+p <- ggplot(datos,aes(Species,Petal.Width))
+p +
+  labs(x = "Especies",y = "Ancho Sépalo",
+       title="Diagrama de Cajas y bigotes")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+  geom_boxplot(aes(fill=Species))
+```
+A continuación se presentan los histrogramas para cada variable por especie.
+
+```{r , echo=TRUE}
+ggplot(datos, aes(x = Sepal.Length, fill=Species)) + 
+  labs(x = "Longitud Sépalo",
+       title="Histograma longitud del Sépalo")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+geom_histogram()
+
+ggplot(datos, aes(x = Sepal.Width, fill=Species)) +
+  labs(x = "Ancho Sépalo",
+       title="Histograma Ancho del Sépalo")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+geom_histogram()
+
+ggplot(datos, aes(x = Petal.Length, fill=Species)) +
+  labs(x = "Longitud Pétalo",
+       title="Histograma Longitud del Pétalo")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+geom_histogram()
+
+ggplot(datos, (aes(x = Petal.Width, fill=Species))) +
+  labs(x = "Ancho Pétalo",
+       title="Histograma Ancho del Pétalo")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+geom_histogram()
 
 ```
+ los gráficos para las variables cualitativas, que en este caso, se trata de la especie
+
 ¿Cuál es la media clásica y robusta del ancho del sépalo para cada especie?. Realice diagrama de cajas.
 
 ```{r , echo=TRUE}
