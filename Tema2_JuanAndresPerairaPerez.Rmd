@@ -5,7 +5,7 @@ date: "13 de abril de 2018"
 output: pdf_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -15,7 +15,7 @@ Queremos responder a las siguientes preguntas:
 ¿Cuántos datos (o casos) tenemos para cada especie? y ¿qué porcentaje representan del total de casos?
 Realice los gráficos pertinentes para cada tipo de variable (cualitativa vs. cuantitativa).
 
-```{r , echo=TRUE}
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
 datos<-iris #-- cargamos los datos
 head(datos)
 attach(datos) #-- activamos las variables
@@ -25,7 +25,7 @@ table(Species)/length(Species)
 ```
 El porcentaje es de un 33,33% por especie con respecto al total de datos.
 Comenzaremos con los  Gráficos para las variables cuantitativas, en primer lugar se realizaran los diagramas de cajas y bigotes
-```{r , echo=TRUE}
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
 library(ggplot2)
 p <- ggplot(datos,aes(Species,Sepal.Length))
 p +
@@ -55,9 +55,10 @@ p +
   scale_fill_discrete(guide_legend(title = "Especies"))+
   geom_boxplot(aes(fill=Species))
 ```
+
 A continuación se presentan los histrogramas para cada variable por especie.
 
-```{r , echo=TRUE}
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
 ggplot(datos, aes(x = Sepal.Length, fill=Species)) + 
   labs(x = "Longitud Sépalo",
        title="Histograma longitud del Sépalo")+
@@ -87,7 +88,7 @@ geom_histogram()
 
 ¿Cuál es la media clásica y robusta del ancho del sépalo para cada especie?. Realice diagrama de cajas.
 
-```{r , echo=TRUE}
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
 #-- Media clásica del ancho del sépalo para cada especie.
 media_ancho_sepalo<-aggregate(Sepal.Width~Species, datos, mean)
 media_ancho_sepalo
@@ -95,21 +96,20 @@ media_ancho_sepalo
 #-- Media robusta del ancho del sépalo para cad especie.
 
 library(WRS2)
-
 media_robusta_ancho_sepalo<-aggregate(Sepal.Width~Species, datos, mest)
 media_robusta_ancho_sepalo
 
 
 ```
 ¿Qué correlaciones existen entre las distintas medidas tomadas a cada planta? Realice un gráfico bidimensional para observarlo.
-```{r , echo=TRUE}
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
 
 ```
 
 ## Ejercicio 2: Utiliza los datos “Davis” (paquete “car”) para calcular el IMC como se indicó en el tema 2 (IMC=Peso/Estatura^2). Realia:
 
 Gráfico de barras y de sectores para las categorías del IMC por sexo.
-```{r , echo=TRUE}
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
 #-- cargamos los datos
 library(car)
 datos<-Davis
@@ -147,8 +147,9 @@ ggplot(datos_davis,aes(x=factor(sex),fill=factor(IMCc))) +
 
 #-- Gráfrico para los hombres
 datos_hombres<-subset(datos_davis,datos_davis$sex=="M")
-grafico_tarta<-pie(table(datos_hombres$IMCc))
-
+library(plotrix)
+grafico_tarta<-pie(table(datos_hombres$IMCc),
+                   main="Gráfico Hombres")
 
 #-- Gráfico para las mujeres
 
@@ -159,18 +160,18 @@ grafico_tarta<-pie(table(datos_mujeres$IMCc))
 ```
 
 Gráficos de cajas e histogramas para la variable IMC numérica, también por sexo. ¿Existe algún outlier?, ¿cuáles?.
-```{r , echo=TRUE}
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
 
 ```
 
 Interpreta los resultados.
-```{r , echo=TRUE}
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
 
 ```
 
-## Ejercicio 2:  Utiliza los datos “Arthritis” (paquete “vcd”) sobre un ensayo clínico de doble ciego que investiga un nuevo tratamiento para la artritis reumatoide. Tenemos información de 84 observaciones de 5 variables: la identificación del paciente (ID), el tratamiento (Treatment: Placebo, Treated), el sexo (Sex: Female, Male), la edad (Age) y la mejoría (Improved: None, Some, Marked). Obtener las tablas de frecuencias y  medidas de asociación entre estas variables. Interpreta los resultados.
+## Ejercicio 3:  Utiliza los datos “Arthritis” (paquete “vcd”) sobre un ensayo clínico de doble ciego que investiga un nuevo tratamiento para la artritis reumatoide. Tenemos información de 84 observaciones de 5 variables: la identificación del paciente (ID), el tratamiento (Treatment: Placebo, Treated), el sexo (Sex: Female, Male), la edad (Age) y la mejoría (Improved: None, Some, Marked). Obtener las tablas de frecuencias y  medidas de asociación entre estas variables. Interpreta los resultados.
 
-```{r , echo=TRUE}
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
 #-- Cargamos el paquete
 library(vcd)
 datos<-Arthritis
