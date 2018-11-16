@@ -1,214 +1,249 @@
 ---
-title: "Ejercicios Tema 1"
+title: "Ejercicios tema 2"
 author: "Juan Andrés Peraira Pérez"
-date: "6 de abril de 2018"
 output: pdf_document
 ---
 
-```{r setup, include=FALSE}
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Ejercicio 1: Resuelva las siguientes operaciones
->
-* $(3^5 + 2^9)-log(2)$
-* $\frac{1}{\sqrt{log(2)*2^5}}$
- 
-### Solución:
+## Ejercicio 1: Utiliza los datos “iris” que corresponden a mediciones (en centímetros) de 4 variables: largo y ancho de los pétalos y sépalos; para 50 flores de 3 especies distintas de plantas Iris setosa, versicolor, y virginica.
+Queremos responder a las siguientes preguntas:
 
-```{r x}
-x<-(3^5+2^9)-log(2)
-x
-```
-```{r y}
-y<-1/sqrt(log(2)*2^5)
-y
-```
-## Ejercicio 2: Defina los siguientes vectores x={4,2,1} e y={1,0,-1}:
-##calcule la suma de los elementos de “x”.
-##calcule la suma de los vectores “x” + “y”
+¿Cuántos datos (o casos) tenemos para cada especie? y ¿qué porcentaje representan del total de casos?
+Realice los gráficos pertinentes para cada tipo de variable (cualitativa vs. cuantitativa).
 
-###Solución:
-
-```{r }
-#-- Suma de los elementos del vector X
-x<-c(4,2,1)
-sum(x)
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+datos<-iris #-- cargamos los datos
+head(datos)
+attach(datos) #-- activamos las variables
+table(Species)
+#-- Podemos observar que tenemos 50 casos para cada especie
+table(Species)/length(Species)
 ```
 
-```{r, echo=TRUE}
-#-- Suma de los dos vectores
-x<-c(4,2,1)
-y<-c(1,0,-1)
-x+y
+El porcentaje es de un 33,33% por especie con respecto al total de datos.
+Comenzaremos con los  Gráficos para las variables cuantitativas, en primer lugar se realizaran los diagramas de cajas y bigotes
+
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+library(ggplot2)
+p <- ggplot(datos,aes(Species,Sepal.Length))
+p +
+  labs(x = "Especies",y = "Longitud Sepalo (cm)",
+       title="Diagrama de Cajas y bigotes")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+  geom_boxplot(aes(fill=Species))
+
+p <- ggplot(datos,aes(Species,Sepal.Width))
+p +
+  labs(x = "Especies",y = "Ancho Sepalo (cm)",
+       title="Diagrama de Cajas y bigotes")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+  geom_boxplot(aes(fill=Species))
+
+p <- ggplot(datos,aes(Species,Petal.Length))
+p +
+  labs(x = "Especies",y = "Longitud Petalo (cm)",
+       title="Diagrama de Cajas y bigotes")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+  geom_boxplot(aes(fill=Species))
+
+p <- ggplot(datos,aes(Species,Petal.Width))
+p +
+  labs(x = "Especies",y = "Ancho Sepalo (cm)",
+       title="Diagrama de Cajas y bigotes")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+  geom_boxplot(aes(fill=Species))
 ```
 
-\newpage
+A continuación se presentan los histrogramas para cada variable por especie.
 
-## Ejercicio 3: Construya las siguientes matrices de datos:
-\[ A=\left( \begin{array}{ccc} 5 & 1 \\3 & 2 \\\end{array} \right)\]
-\[B= \left( \begin{array}{ccc} 4 & 1 \\3 & 2 \\\end{array} \right)\]
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+ggplot(datos, aes(x = Sepal.Length, fill=Species)) + 
+  labs(x = "Longitud Sepalo",
+       title="Histograma longitud del Sepalo")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+geom_histogram()
 
-##Multiplique por dos la matriz A y sume ambas matrices
+ggplot(datos, aes(x = Sepal.Width, fill=Species)) +
+  labs(x = "Ancho Sepalo",
+       title="Histograma Ancho del Sepalo")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+geom_histogram()
 
-### Solución:
-```{r, echo=TRUE}
-#-- Construcción de matrices
-A<-matrix(c(5,3,1,2),nrow = 2,ncol = 2)
-A
-B<-matrix(c(1,4,7,5),nrow = 2,ncol = 2)
-B
-```
-```{r, echo=TRUE}
-#--Multiplicación por dos de la matriz A
-A * 2
-```
-```{r, echo=TRUE}
-#--Suma de las matrices
-A+B
-```
+ggplot(datos, aes(x = Petal.Length, fill=Species)) +
+  labs(x = "Longitud Petalo",
+       title="Histograma Longitud del Petalo")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+geom_histogram()
 
-## Ejercicio 4: Construya un data.frame con la siguiente información:
-\begin{table}[htbp]
-\begin{center}
-\begin{tabular}{|l|l|l|}
-\hline
-Sexo & Edad & Peso \\
-\hline \hline 
-M & 30 & 80 \\ \hline
-F & 35 & 61 \\ \hline
-M & 31 & 85 \\ \hline
-\end{tabular}
-\label{tabla:sencilla}
-\end{center}
-\end{table}
+ggplot(datos, (aes(x = Petal.Width, fill=Species))) +
+  labs(x = "Ancho Petalo",
+       title="Histograma Ancho del Petalo")+
+  scale_fill_discrete(guide_legend(title = "Especies"))+
+geom_histogram()
 
-\newpage
-
-### Solución:
-```{r, echo=TRUE}
-Data_frame<-data.frame(Sexo=c("M","F","M"),Edad=c(30,35,31),Peso=c(80,61,85))
-Data_frame
 ```
 
-## Ejercicio 5: Crea una función que tome un vector numérico como argumento y calcule la media y tamaño (o largo) del vector. En el resultado de la función se debe obtener ambos valores (media y tamaño).
+¿Cuál es la media clásica y robusta del ancho del sépalo para cada especie?. Realice diagrama de cajas.
 
-### Solución:
-```{r, echo=TRUE}
-Funcion_Vector<-function(x){
-  as.vector(x)
-  media<-mean(x)
-  longitud<-length(x)
-  return(list(media=media,longitud=longitud))
-} 
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+#-- Media clásica del ancho del sépalo para cada especie.
+media_ancho_sepalo<-aggregate(Sepal.Width~Species, datos, mean)
+media_ancho_sepalo
+
+#-- Media robusta del ancho del sépalo para cad especie.
+library(WRS2)
+media_robusta_ancho_sepalo<-aggregate(Sepal.Width~Species, datos, mest)
+media_robusta_ancho_sepalo
+
 ```
-```{r, echo=TRUE}
-x<-(1:65)
-Funcion_Vector(x)
+¿Qué correlaciones existen entre las distintas medidas tomadas a cada planta? Realice un gráfico bidimensional para observarlo.
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+correlacion
+
 ```
+Podemos observar que existe una alta correlación entre la longitud del sepalo con la longitud y ancho del petalo y la longitud del petalo con el ancho del petalo.
 
-## Ejercicio 6: Crea una función que calcule el IRPF e IVA de una factura. Recuerden que en una factura al monto inicial se le resta el IRPF (porque lo paga la empresa) y se suma el IVA (porque lo paga el comprador). En el resultado se debe observar: importe inicial, costo del IRPF (pueden tomar el 19% o dejarlo como un argumento), costo del IVA (21% o dejarlo como un argumento a ingresar) e importe final de la factura. 
- 
-### Solución: 
+## Ejercicio 2: Utiliza los datos “Davis” (paquete “car”) para calcular el IMC como se indicó en el tema 2 (IMC=Peso/Estatura^2). Realia:
+Gráfico de barras y de sectores para las categorías del IMC por sexo.
 
-```{r, echo=TRUE}
-funcion_factura<-function(factura_inicial,iva,irpf){
-  factura<-factura_inicial
-  porcentaje_iva<-iva*0.01
-  porcentaje_irpf<-irpf*0.01
-  ## caluclo del iva
-  iva_cantidad<-porcentaje_iva*factura
-  ## calculo del irpf
-  irpf_cantidad<-porcentaje_irpf*factura
-  ## Resultado
-  resultado= factura -irpf_cantidad + iva_cantidad
-  return(list("factura"=factura,
-               "cantidad de iva"=iva_cantidad,
-               "Cantidad de IRPF" = irpf_cantidad,
-               "Resultado"=resultado))
-}
-```
-```{r, echo=TRUE}
-funcion_factura(28500,21,8)
-``` 
-##Ejercicio 7: En el siguiente vector sustituya los valores perdidos por 0: x={0,1,2,NA,3,2,1}
- 
-### Solución:
-```{r, echo=TRUE}
-x<-c(0,1,2,NA,3,2,1)
-x
-x[is.na(x)]=0
-x
-```
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+#-- cargamos los datos
+library(car)
+datos<-Davis
+head(datos)
 
-##Ejercicio 8: Cargue los datos “trees” del dataset (el conjunto de datos que viene instalado por defecto en R) y utilice la función “apply” para calcular la media de cada variable de la base de datos.
-\newpage
-### Solución:
+attach(datos) #-- Activamos las variables
 
-```{r, echo=TRUE}
-#-- Cargamos el dataset "trees" y lo definimos como "datos"
-datos<-trees
-datos
-```
-```{r, echo=TRUE}
-apply(datos,2,mean)
-```
+#-- Creamos la función
+imc=function(w,h){w/(h/100)^2}
+#-- Calculamos el imc para los datos
+datos_imc<-imc(datos$weight,datos$height)
+# creamos las categorías de IMC
+imcc_datos=cut(datos_imc, breaks=c(0, 15, 18.5, 25, 30))
+#-- Creamos la tabla
+imcfrec=table(imcc_datos)
+cbind(imcfrec)
+#-- agregamos las etiquetas
+levels(imcc_datos)=c("infrapeso","delgada","normal","sobrepeso","obesidad")
+#-- Creamos el data frame
+datos_davis<-data.frame(datos, IMC=datos_imc, IMCc=imcc_datos)
+# eliminamos los errores
+datos_davis<-datos_davis[!is.na(datos_davis$IMCc),]
+head(datos_davis)
 
-\newpage
+library(ggplot2)
+library(gridExtra)
+ggplot(datos_davis,aes(x=factor(sex),fill=factor(IMCc))) +
+  geom_bar(stat = "count", position="dodge")+
+  labs(title = "Gráfico de IMC por Sexo") +
+  labs(fill = "IMC") +
+  labs(aes(x="Sexo",y="Personas"))
 
-##Ejercicio 9: Transforme los datos de formato “wide” a “long”. NOTA: los resultados pueden estar en un orden distinto.
+#-- Gráfico de sectores
+#-- Realizaremos dos gráficos separando los hombres ylas mujeres
 
-\begin{table}[htbp]
-\begin{center}
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-id & Sex & V1 & V2 & V3 \\
-\hline \hline 
-1 & F & 0.89 & -0.45 & 0.21 \\ \hline
-2 & M & 0.30 & 0.21 & 0.37 \\ \hline
-3 & F & 0.22 & -0.71 & -0.54 \\ \hline
-\end{tabular}
-\label{tabla:sencilla}
-\end{center}
-\end{table}
+#-- Gráfrico para los hombres
+datos_hombres<-subset(datos_davis,datos_davis$sex=="M")
+library(plotrix)
+grafico_tarta<-pie(table(datos_hombres$IMCc),
+                   main="Gráfico Hombres")
 
-\begin{table}[htbp]
-\begin{center}
-\begin{tabular}{|l|l|l|l|}
-\hline
-id & Sex & N & V \\
-\hline \hline 
-1 & F & 1 & 0.89  \\ \hline
-1 & F & 2 & -0.45 \\ \hline
-1 & F & 3 & 0.21 \\ \hline
-2 & M & 1 & 0.30 \\ \hline
-2 & M & 2 & 0.21 \\ \hline
-2 & M & 3 & 0.37 \\ \hline
-3 & F & 1 & 0.22 \\ \hline
-3 & F & 2 & -0.71 \\ \hline
-3 & F & 3 & -0.54 \\ \hline
-\end{tabular}
-\label{tabla:sencilla}
-\end{center}
-\end{table}
+#-- Gráfico para las mujeres
 
-### Solución:
+datos_mujeres<-subset(datos_davis,datos_davis$sex=="F")
+grafico_tarta<-pie(table(datos_mujeres$IMCc))
 
-```{r, echo=TRUE}
-datos<-data.frame(id=c(1,2,3),Sex=c("F","M","F"),V1=c(0.89,0.30,0.22),
-                  V2=c(-0.45,0.21,-0.71),V3=c(0.21,0.37,-0.54))
-datos
-```
-```{r, echo=TRUE}
-## -- Instalamos y cargamos el paquete necesario
-library(reshape2)
-datos_long<- melt(datos, id=c("id","Sex"))
-datos_long
+
 ```
 
+Gráficos de cajas e histogramas para la variable IMC numérica, también por sexo. ¿Existe algún outlier?, ¿cuáles?.
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+#-- Realizamos el gráfico de cajas y bigotes para el IMC por sexo
+p <- ggplot(datos_davis,aes(sex,IMC))
+p +
+  labs(x = "Sexo",y = "Indice de masa corporal",
+       title="Diagrama de Cajas y bigotes")+
+  scale_fill_discrete(guide_legend(title = "Sexo"))+
+  geom_boxplot(aes(fill=sex))
 
+#-- Realizamos el hitográma del IMC 
+p <- ggplot(data=datos_davis, aes(x=IMC)) + 
+  geom_histogram(fill="steelblue") +
+  ggtitle("Histograma Indice de masa corporal") + 
+  labs(aes(x="IMC")) + 
+  theme_minimal()
 
+#-- Realizamos el histográma para el IMC por sexo
+p <- ggplot(data=datos_davis, aes(x=IMC)) + 
+  geom_histogram(fill="steelblue") +
+  ggtitle("Histograma IMC por Sexo") + 
+  facet_wrap(~sex)+
+  theme_minimal()
 
+```
+Podemos observar en el gráfico de cajas y bigotes que exiten dos outliers para el sexo Femenino, estos outliers superan el IMC = 25 (mujeres con sobrepeso).
+
+## Ejercicio 3:  Utiliza los datos “Arthritis” (paquete “vcd”) sobre un ensayo clínico de doble ciego que investiga un nuevo tratamiento para la artritis reumatoide. Tenemos información de 84 observaciones de 5 variables: la identificación del paciente (ID), el tratamiento (Treatment: Placebo, Treated), el sexo (Sex: Female, Male), la edad (Age) y la mejoría (Improved: None, Some, Marked). Obtener las tablas de frecuencias y  medidas de asociación entre estas variables. Interpreta los resultad
+
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+#-- Cargamos el paquete
+library(vcd)
+datos<-Arthritis
+attach(datos) #-- Activamos las variables
+head(datos)
+#-- Las tablas de frecuencia se realizarán por variable.
+#-- Tabla de frecuencias de la variable Tratamiento
+table(Treatment)
+
+#-- Tabla de frecuencias de la variable Sexo
+table(Sex)
+
+#-- Tabla de frecuencias de la variable Edad
+table(Age)
+
+#-- Tabla de frecuencias de la variable Improved
+table(Improved)
+
+```
+
+Una vez que hemos obtenido las tablas de frecuencia, el siguiente paso es realizar las medidas de asociación para las variables cualitativas y cuantitativas.
+Vamos a analizar en primer lugar el sexo con el tratamiento:
+
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+
+summary(assocstats(table(datos$Sex,datos$Treatment)))
+```
+Observamos que no existe una relación significativa (p>0.05) entre el sexo y el tratamiento y dado el coeficiente de Cramer tienen una asociación bastante baja.
+
+Ahora vamos a analizar el sexo con la mejoria:
+
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+
+summary(assocstats(table(datos$Sex,datos$Improved)))
+```
+
+Observamos que no existe una relación significativa (p>0.05) entre el sexo y la mejoria del paciente y dado el coeficiente de Cramer tienen una asociación baja.
+
+Analizamos el tratamiento con la mejoria:
+
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+
+summary(assocstats(table(datos$Treatment,datos$Improved)))
+```
+
+En este caso podemos ver que existe una relación significativa (p<0.05) entre el tratamiento y la mejoría, el coeficiente de Cramer es bajo.
+
+Ahora vamos a realizar el estudio con la edad y la mejoria:
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+
+summary(assocstats(table(datos$Age,datos$Improved)))
+```
+
+Según el coeficiente de Cramer exite una alta asociación entre estas variables, pero el p<0.05 y por lo tanto no existe una relación significativa.
 
 
 

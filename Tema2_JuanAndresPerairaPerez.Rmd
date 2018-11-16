@@ -1,9 +1,9 @@
 ---
 title: "Ejercicios tema 2"
 author: "Juan Andrés Peraira Pérez"
-date: "13 de abril de 2018"
 output: pdf_document
 ---
+
 
 ```{r setup, include=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -23,34 +23,36 @@ table(Species)
 #-- Podemos observar que tenemos 50 casos para cada especie
 table(Species)/length(Species)
 ```
+
 El porcentaje es de un 33,33% por especie con respecto al total de datos.
 Comenzaremos con los  Gráficos para las variables cuantitativas, en primer lugar se realizaran los diagramas de cajas y bigotes
+
 ```{r , echo=TRUE, message=FALSE, warning=FALSE}
 library(ggplot2)
 p <- ggplot(datos,aes(Species,Sepal.Length))
 p +
-  labs(x = "Especies",y = "Longitud Sépalo",
+  labs(x = "Especies",y = "Longitud Sepalo (cm)",
        title="Diagrama de Cajas y bigotes")+
   scale_fill_discrete(guide_legend(title = "Especies"))+
   geom_boxplot(aes(fill=Species))
 
 p <- ggplot(datos,aes(Species,Sepal.Width))
 p +
-  labs(x = "Especies",y = "Ancho Sépalo",
+  labs(x = "Especies",y = "Ancho Sepalo (cm)",
        title="Diagrama de Cajas y bigotes")+
   scale_fill_discrete(guide_legend(title = "Especies"))+
   geom_boxplot(aes(fill=Species))
 
 p <- ggplot(datos,aes(Species,Petal.Length))
 p +
-  labs(x = "Especies",y = "Longitud Pétalo",
+  labs(x = "Especies",y = "Longitud Petalo (cm)",
        title="Diagrama de Cajas y bigotes")+
   scale_fill_discrete(guide_legend(title = "Especies"))+
   geom_boxplot(aes(fill=Species))
 
 p <- ggplot(datos,aes(Species,Petal.Width))
 p +
-  labs(x = "Especies",y = "Ancho Sépalo",
+  labs(x = "Especies",y = "Ancho Sepalo (cm)",
        title="Diagrama de Cajas y bigotes")+
   scale_fill_discrete(guide_legend(title = "Especies"))+
   geom_boxplot(aes(fill=Species))
@@ -60,31 +62,30 @@ A continuación se presentan los histrogramas para cada variable por especie.
 
 ```{r , echo=TRUE, message=FALSE, warning=FALSE}
 ggplot(datos, aes(x = Sepal.Length, fill=Species)) + 
-  labs(x = "Longitud Sépalo",
-       title="Histograma longitud del Sépalo")+
+  labs(x = "Longitud Sepalo",
+       title="Histograma longitud del Sepalo")+
   scale_fill_discrete(guide_legend(title = "Especies"))+
 geom_histogram()
 
 ggplot(datos, aes(x = Sepal.Width, fill=Species)) +
-  labs(x = "Ancho Sépalo",
-       title="Histograma Ancho del Sépalo")+
+  labs(x = "Ancho Sepalo",
+       title="Histograma Ancho del Sepalo")+
   scale_fill_discrete(guide_legend(title = "Especies"))+
 geom_histogram()
 
 ggplot(datos, aes(x = Petal.Length, fill=Species)) +
-  labs(x = "Longitud Pétalo",
-       title="Histograma Longitud del Pétalo")+
+  labs(x = "Longitud Petalo",
+       title="Histograma Longitud del Petalo")+
   scale_fill_discrete(guide_legend(title = "Especies"))+
 geom_histogram()
 
 ggplot(datos, (aes(x = Petal.Width, fill=Species))) +
-  labs(x = "Ancho Pétalo",
-       title="Histograma Ancho del Pétalo")+
+  labs(x = "Ancho Petalo",
+       title="Histograma Ancho del Petalo")+
   scale_fill_discrete(guide_legend(title = "Especies"))+
 geom_histogram()
 
 ```
- los gráficos para las variables cualitativas, que en este caso, se trata de la especie
 
 ¿Cuál es la media clásica y robusta del ancho del sépalo para cada especie?. Realice diagrama de cajas.
 
@@ -94,21 +95,22 @@ media_ancho_sepalo<-aggregate(Sepal.Width~Species, datos, mean)
 media_ancho_sepalo
 
 #-- Media robusta del ancho del sépalo para cad especie.
-
 library(WRS2)
 media_robusta_ancho_sepalo<-aggregate(Sepal.Width~Species, datos, mest)
 media_robusta_ancho_sepalo
 
-
 ```
 ¿Qué correlaciones existen entre las distintas medidas tomadas a cada planta? Realice un gráfico bidimensional para observarlo.
 ```{r , echo=TRUE, message=FALSE, warning=FALSE}
-
+datos$Species = NULL
+correlacion <-cor(datos)
+correlacion
 ```
+Podemos observar que existe una alta correlación entre la longitud del sepalo con la longitud y ancho del petalo y la longitud del petalo con el ancho del petalo.
 
 ## Ejercicio 2: Utiliza los datos “Davis” (paquete “car”) para calcular el IMC como se indicó en el tema 2 (IMC=Peso/Estatura^2). Realia:
-
 Gráfico de barras y de sectores para las categorías del IMC por sexo.
+
 ```{r , echo=TRUE, message=FALSE, warning=FALSE}
 #-- cargamos los datos
 library(car)
@@ -161,22 +163,39 @@ grafico_tarta<-pie(table(datos_mujeres$IMCc))
 
 Gráficos de cajas e histogramas para la variable IMC numérica, también por sexo. ¿Existe algún outlier?, ¿cuáles?.
 ```{r , echo=TRUE, message=FALSE, warning=FALSE}
+#-- Realizamos el gráfico de cajas y bigotes para el IMC por sexo
+p <- ggplot(datos_davis,aes(sex,IMC))
+p +
+  labs(x = "Sexo",y = "Indice de masa corporal",
+       title="Diagrama de Cajas y bigotes")+
+  scale_fill_discrete(guide_legend(title = "Sexo"))+
+  geom_boxplot(aes(fill=sex))
+
+#-- Realizamos el hitográma del IMC 
+p <- ggplot(data=datos_davis, aes(x=IMC)) + 
+  geom_histogram(fill="steelblue") +
+  ggtitle("Histograma Indice de masa corporal") + 
+  labs(aes(x="IMC")) + 
+  theme_minimal()
+
+#-- Realizamos el histográma para el IMC por sexo
+p <- ggplot(data=datos_davis, aes(x=IMC)) + 
+  geom_histogram(fill="steelblue") +
+  ggtitle("Histograma IMC por Sexo") + 
+  facet_wrap(~sex)+
+  theme_minimal()
 
 ```
+Podemos observar en el gráfico de cajas y bigotes que exiten dos outliers para el sexo Femenino, estos outliers superan el IMC = 25 (mujeres con sobrepeso).
 
-Interpreta los resultados.
-```{r , echo=TRUE, message=FALSE, warning=FALSE}
-
-```
-
-## Ejercicio 3:  Utiliza los datos “Arthritis” (paquete “vcd”) sobre un ensayo clínico de doble ciego que investiga un nuevo tratamiento para la artritis reumatoide. Tenemos información de 84 observaciones de 5 variables: la identificación del paciente (ID), el tratamiento (Treatment: Placebo, Treated), el sexo (Sex: Female, Male), la edad (Age) y la mejoría (Improved: None, Some, Marked). Obtener las tablas de frecuencias y  medidas de asociación entre estas variables. Interpreta los resultados.
+## Ejercicio 3:  Utiliza los datos “Arthritis” (paquete “vcd”) sobre un ensayo clínico de doble ciego que investiga un nuevo tratamiento para la artritis reumatoide. Tenemos información de 84 observaciones de 5 variables: la identificación del paciente (ID), el tratamiento (Treatment: Placebo, Treated), el sexo (Sex: Female, Male), la edad (Age) y la mejoría (Improved: None, Some, Marked). Obtener las tablas de frecuencias y  medidas de asociación entre estas variables. Interpreta los resultad
 
 ```{r , echo=TRUE, message=FALSE, warning=FALSE}
 #-- Cargamos el paquete
 library(vcd)
 datos<-Arthritis
 attach(datos) #-- Activamos las variables
-
+head(datos)
 #-- Las tablas de frecuencia se realizarán por variable.
 #-- Tabla de frecuencias de la variable Tratamiento
 table(Treatment)
@@ -192,8 +211,40 @@ table(Improved)
 
 ```
 
+Una vez que hemos obtenido las tablas de frecuencia, el siguiente paso es realizar las medidas de asociación para las variables cualitativas y cuantitativas.
+Vamos a analizar en primer lugar el sexo con el tratamiento:
 
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
 
+summary(assocstats(table(datos$Sex,datos$Treatment)))
+```
+Observamos que no existe una relación significativa (p>0.05) entre el sexo y el tratamiento y dado el coeficiente de Cramer tienen una asociación bastante baja.
+
+Ahora vamos a analizar el sexo con la mejoria:
+
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+
+summary(assocstats(table(datos$Sex,datos$Improved)))
+```
+
+Observamos que no existe una relación significativa (p>0.05) entre el sexo y la mejoria del paciente y dado el coeficiente de Cramer tienen una asociación baja.
+
+Analizamos el tratamiento con la mejoria:
+
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+
+summary(assocstats(table(datos$Treatment,datos$Improved)))
+```
+
+En este caso podemos ver que existe una relación significativa (p<0.05) entre el tratamiento y la mejoría, el coeficiente de Cramer es bajo.
+
+Ahora vamos a realizar el estudio con la edad y la mejoria:
+```{r , echo=TRUE, message=FALSE, warning=FALSE}
+
+summary(assocstats(table(datos$Age,datos$Improved)))
+```
+
+Según el coeficiente de Cramer exite una alta asociación entre estas variables, pero el p<0.05 y por lo tanto no existe una relación significativa.
 
 
 
